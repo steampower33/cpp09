@@ -16,11 +16,15 @@ private:
 public:
 	BitcoinExchange();
 	~BitcoinExchange();
-	void checkDataCsv();
 	void checkDate(int year, int month, int day, const std::string& line);
 	void checkRate(float rate);
 	bool isLeapYear(int year);
 	int getDaysInMonth(int year, int month);
+	void checkDataCsv();
+	void checkValue(float value);
+	void printBitcoinPrice(std::string& date, float bitcoinPrice);
+	void calcBitcoinPrice(std::string& date, float value);
+	void checkInputFile(const std::string& file);
 };
 
 #endif
