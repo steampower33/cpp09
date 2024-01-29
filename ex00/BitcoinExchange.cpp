@@ -135,7 +135,7 @@ void BitcoinExchange::calcBitcoinPrice(std::string& date, float value) {
 }
 
 void BitcoinExchange::checkInputFile(const std::string& file) {
-	std::ifstream inputFile(file);
+	std::ifstream inputFile(file.c_str());
 	if (!inputFile.is_open())
 		throw std::runtime_error("Error : csv does not open");
 
