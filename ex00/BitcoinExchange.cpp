@@ -17,8 +17,10 @@ BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) {
 BitcoinExchange::~BitcoinExchange() {}
 
 void BitcoinExchange::checkRate(float rate) {
+	std::stringstream ss;
+	ss << "Error: not a positive rate => " << rate;
 	if (rate < 0)
-		throw std::runtime_error("Error: not a positive rate.");
+		throw std::runtime_error(ss.str());
 }
 
 bool BitcoinExchange::isLeapYear(int year) {
@@ -73,6 +75,7 @@ void BitcoinExchange::checkDataCsv() {
 		try
 		{
 			checkDate(year, month, day, ss.str());
+			checkRate(rate);
 		}
 		catch(const std::exception& e)
 		{
