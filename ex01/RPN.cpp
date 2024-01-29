@@ -40,7 +40,7 @@ void RPN::polish(const std::string& arg) {
 		if (isTokenNum(token))
 		{
 			endptr = NULL;
-			tokenValue = std::strtod(token.c_str(), &endptr);
+			tokenValue = strtod(token.c_str(), &endptr);
 			_stack.push(tokenValue);
 		} else {
 			num2 = _stack.top();
