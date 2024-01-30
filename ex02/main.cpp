@@ -10,10 +10,18 @@ int main(int argc, char** argv) {
 	PmergeMe pm;
 	try
 	{
+		argv++;
+		while (*argv) {
+			pm.checkArg(*argv);
+			argv++;
+		}
+		pm.makePair();
+		pm.pairSort();
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
+		return 1;
 	}
-	
+	return 0;
 }
