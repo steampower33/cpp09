@@ -69,6 +69,8 @@ void RPN::polish(const std::string& arg) {
 			_stack.push(calcNum);
 		}
 	}
+	if (_stack.size() == 0)
+		throw std::runtime_error("Error");
 	std::cout << _stack.top() << std::endl;
 	_stack.pop();
 }
