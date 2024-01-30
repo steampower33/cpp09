@@ -43,6 +43,8 @@ void RPN::polish(const std::string& arg) {
 			tokenValue = strtod(token.c_str(), &endptr);
 			_stack.push(tokenValue);
 		} else {
+			if (_stack.size() < 2)
+				throw std::runtime_error("Error");
 			num2 = _stack.top();
 			_stack.pop();
 			num1 = _stack.top();
