@@ -14,6 +14,8 @@ private:
 	std::vector< std::pair<int, int> > _pair;
 	std::vector<int> _main;
 	std::vector<int> _pending;
+	std::vector<int> _jacobNumbers;
+	std::vector<int> _insertPosition;
 	PmergeMe(const PmergeMe& other);
 	PmergeMe& operator=(const PmergeMe& other);
 public:
@@ -26,6 +28,9 @@ public:
 	void swapPair(std::pair<int, int>& left, std::pair<int, int>& right);
 	void pairSort();
 	void splitMainPending();
+	int getJacobsthalNumber(int n);
+	void makeJacobsthalNumbers();
+	void setInsertPosition();
 };
 
 #endif

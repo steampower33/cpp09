@@ -92,6 +92,34 @@ void PmergeMe::splitMainPending() {
 	}
 }
 
+int PmergeMe::getJacobsthalNumber(int n)
+{
+	if (n == 0)
+		return (0);
+	else if (n == 1)
+		return (1);
+	int i = getJacobsthalNumber(n - 1) + 2 * getJacobsthalNumber(n - 2);
+	return (i);
+}
+
+void PmergeMe::makeJacobsthalNumbers() {
+	size_t jacobsthalNum = 0;
+	size_t pendingSize = _pending.size();
+	int pendingIdx;
+
+	pendingIdx = 0;
+	while ((jacobsthalNum = getJacobsthalNumber(pendingIdx)) < pendingSize) {
+		_jacobNumbers.push_back(jacobsthalNum);
+		pendingIdx++;
+	}
+}
+
+void PmergeMe::setInsertPosition() {
+	makeJacobsthalNumbers();
+	for (size_t i = 0; i < _jacobNumbers.size(); i++) {
+		std::cout << _jacobNumbers[i] << " " << std::endl;
+	}
+}
 
 void PmergeMe::pairSort() {
 	mergeSort(0, _pair.size() - 1);
@@ -103,4 +131,5 @@ void PmergeMe::pairSort() {
 	std::cout << "<<< Main And Pending >>>" << std::endl;
 	for (size_t i = 0; i < _main.size(); i++)
 		std::cout << "main: " << _main[i] << ", pending: " << _pending[i] << std::endl;
+	setInsertPosition();
 }
