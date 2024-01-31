@@ -15,8 +15,7 @@ int main(int argc, char** argv) {
 			pm.checkArg(*argv);
 			argv++;
 		}
-		pm.makePair();
-		pm.pairSort();
+		pm.doSort();
 	}
 	catch(const std::exception& e)
 	{

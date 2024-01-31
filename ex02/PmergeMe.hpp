@@ -6,7 +6,7 @@
 #include <sstream>
 #include <cmath>
 #include <stdexcept>
-#include <utility>
+#include <ctime>
 
 class PmergeMe {
 private:
@@ -14,8 +14,8 @@ private:
 	std::vector< std::pair<int, int> > _pair;
 	std::vector<int> _main;
 	std::vector<int> _pending;
-	std::vector<int> _jacobNumbers;
-	std::vector<int> _insertPosition;
+	std::vector<size_t> _jacobNumbers;
+	std::vector<size_t> _insertOrder;
 	PmergeMe(const PmergeMe& other);
 	PmergeMe& operator=(const PmergeMe& other);
 public:
@@ -23,14 +23,18 @@ public:
 	~PmergeMe();
 	void checkArg(const std::string& arg);
 	void makePair();
-	void mergeSort(int low, int high);
-	void merge(int low, int mid, int high);
+	void mergeSort(size_t low, size_t high);
+	void merge(size_t low, size_t mid, size_t high);
 	void swapPair(std::pair<int, int>& left, std::pair<int, int>& right);
-	void pairSort();
+	void doSort();
 	void splitMainPending();
-	int getJacobsthalNumber(int n);
+	size_t getJacobsthalNumber(size_t n);
 	void makeJacobsthalNumbers();
-	void setInsertPosition();
+	void setInsertOrder();
+	void insertionSort();
+	size_t binarySearch(int insertNum);
+	void beforePrint();
+	void afterPrint();
 };
 
 #endif
