@@ -7,15 +7,18 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-	PmergeMe pm;
+	PmergeMe::VecterSort vs;
+	PmergeMe::DequeSort ds;
 	try
 	{
 		argv++;
 		while (*argv) {
-			pm.checkArg(*argv);
+			vs.checkArg(*argv);
+			ds.checkArg(*argv);
 			argv++;
 		}
-		pm.doSort();
+		vs.doSort();
+		ds.doSort();
 	}
 	catch(const std::exception& e)
 	{
