@@ -30,6 +30,7 @@ public:
 	public:
 		VecterSort();
 		~VecterSort();
+		size_t getMainSize();
 		void checkArg(const std::string& arg);
 		void makePair();
 		void mergeSort(size_t low, size_t high);
@@ -59,6 +60,7 @@ public:
 	public:
 		DequeSort();
 		~DequeSort();
+		size_t getMainSize();
 		void checkArg(const std::string& arg);
 		void makePair();
 		void mergeSort(size_t low, size_t high);
