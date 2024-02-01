@@ -256,11 +256,23 @@ void PmergeMe::VecterSort::doSort() {
 	// std::cout << std::endl;
 	clock_t end = clock();
 	afterPrint();
+	checkSort();
 	double duration = (static_cast<double>(end - start) * 1000000.0) / CLOCKS_PER_SEC;
     std::cout << "Time to process a range of " << _argv.size() << " elements with std::vector : " << duration << " us" << std::endl;
 }
 
-// ListSort------------------------------------------------------------------------------------------------------------------------------------
+void PmergeMe::VecterSort::checkSort() {
+	size_t mainSize = _main.size();
+
+	for (size_t i = 0; i < mainSize - 1; i++) {
+		if (_main[i] <= _main[i + 1])
+			continue;
+		else
+			throw std::runtime_error("Error");
+	}
+}
+
+// DequeSort------------------------------------------------------------------------------------------------------------------------------------
 
 PmergeMe::DequeSort::DequeSort() {};
 
@@ -501,6 +513,18 @@ void PmergeMe::DequeSort::doSort() {
 	// std::cout << std::endl;
 	clock_t end = clock();
 	// afterPrint();
+	checkSort();
 	double duration = (static_cast<double>(end - start) * 1000000.0) / CLOCKS_PER_SEC;
     std::cout << "Time to process a range of " << _argv.size() << " elements with std::deque : " << duration << " us" << std::endl;
+}
+
+void PmergeMe::DequeSort::checkSort() {
+	size_t mainSize = _main.size();
+
+	for (size_t i = 0; i < mainSize - 1; i++) {
+		if (_main[i] <= _main[i + 1])
+			continue;
+		else
+			throw std::runtime_error("Error");
+	}
 }

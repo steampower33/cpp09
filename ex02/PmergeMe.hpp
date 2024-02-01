@@ -44,6 +44,7 @@ public:
 		size_t binarySearch(int insertNum);
 		void beforePrint();
 		void afterPrint();
+		void checkSort();
 	};
 	class DequeSort {
 	private:
@@ -72,6 +73,7 @@ public:
 		size_t binarySearch(int insertNum);
 		void beforePrint();
 		void afterPrint();
+		void checkSort();
 	};
 };
 
