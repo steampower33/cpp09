@@ -73,7 +73,7 @@ void BitcoinExchange::checkDataCsv() {
 			continue;
 		}
 
-		std::stringstream ss;
+		std::ostringstream ss;
 		ss << std::setfill('0') << year << dash << std::setw(2) << month << dash << std::setw(2) << day;
 		try
 		{
@@ -94,7 +94,7 @@ void BitcoinExchange::checkDataCsv() {
 
 
 void BitcoinExchange::checkValue(float value) {
-	std::stringstream ss;
+	std::ostringstream ss;
 
 	if (value < 0)
 	{
@@ -108,9 +108,9 @@ void BitcoinExchange::checkValue(float value) {
 	}
 }
 
-void BitcoinExchange::printBitcoinPrice(std::string& date, float bitcoinPrice) {
+void BitcoinExchange::printBitcoinPrice(std::string& date, float value, float bitcoinPrice) {
 	if (bitcoinPrice >= 0) {
-		std::cout << date << " => " << bitcoinPrice << " = " << bitcoinPrice << std::endl;
+		std::cout << date << " => " << value << " = " << bitcoinPrice << std::endl;
     } else {
 		std::cerr << "Error: date not found => " << date << std::endl;
     }
@@ -120,7 +120,8 @@ void BitcoinExchange::calcBitcoinPrice(std::string& date, float value) {
 	std::map<std::string, float>::const_iterator it = _bitcoinPrices.find(date);
 	float bitcoinPrice = 0.0;
 
-	if (it != _bitcoinPrices.end()) bitcoinPrice = it->second * value;
+	if (it != _bitcoinPrices.end())
+		bitcoinPrice = it->second * value;
 	else {
 		it = _bitcoinPrices.lower_bound(date);
 		if (it != _bitcoinPrices.begin()) {
@@ -128,10 +129,11 @@ void BitcoinExchange::calcBitcoinPrice(std::string& date, float value) {
 			bitcoinPrice = it->second * value;
 		}
 		else {
-			std::cout <<  "Error : invalid date" << std::endl;
+			std::cout <<  "Error : invalid date => " << date << std::endl;
+			return ;
 		}
 	}
-	printBitcoinPrice(date, bitcoinPrice);
+	printBitcoinPrice(date, value, bitcoinPrice);
 }
 
 void BitcoinExchange::checkInputFile(const std::string& file) {
@@ -155,7 +157,7 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 			continue;
 		}
 
-		std::stringstream ss;
+		std::ostringstream ss;
 		ss << std::setfill('0') << year << dash << std::setw(2) << month << dash << std::setw(2) << day;
 		date = ss.str();
 		try

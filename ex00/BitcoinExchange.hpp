@@ -23,7 +23,7 @@ public:
 	int getDaysInMonth(int year, int month);
 	void checkDataCsv();
 	void checkValue(float value);
-	void printBitcoinPrice(std::string& date, float bitcoinPrice);
+	void printBitcoinPrice(std::string& date, float value, float bitcoinPrice);
 	void calcBitcoinPrice(std::string& date, float value);
 	void checkInputFile(const std::string& file);
 };
