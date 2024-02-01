@@ -82,7 +82,7 @@ void BitcoinExchange::checkDataCsv() {
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << '\n';
+			std::cout << e.what() << '\n';
 			continue;
 		}
 
@@ -112,7 +112,7 @@ void BitcoinExchange::printBitcoinPrice(std::string& date, float value, float bi
 	if (bitcoinPrice >= 0) {
 		std::cout << date << " => " << value << " = " << bitcoinPrice << std::endl;
     } else {
-		std::cerr << "Error: date not found => " << date << std::endl;
+		std::cout << "Error: date not found => " << date << std::endl;
     }
 }
 
@@ -168,7 +168,7 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << '\n';
+			std::cout << e.what() << '\n';
 			continue;
 		}
     }
