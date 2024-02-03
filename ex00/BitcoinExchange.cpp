@@ -19,9 +19,9 @@ BitcoinExchange::~BitcoinExchange() {}
 void BitcoinExchange::checkRate(float rate) {
 	if (rate < 0)
 	{
-		std::stringstream ss;
-		ss << "Error: not a positive rate => " << rate;
-		throw std::runtime_error(ss.str());
+		std::ostringstream oss;
+		oss << "Error: not a positive rate => " << rate;
+		throw std::runtime_error(oss.str());
 	}
 }
 
@@ -59,7 +59,7 @@ void BitcoinExchange::checkDataCsv() {
 
 	std::string line;
 	int year, month, day;
-	char dash, comma;
+	char dash1, dash2, comma;
     float rate;
 	
 	std::getline(inputFile, line);
@@ -68,25 +68,17 @@ void BitcoinExchange::checkDataCsv() {
 
     while (std::getline(inputFile, line)) {
 		std::istringstream iss(line);
-		if (!(iss >> year >> dash >> month >> dash >> day >> comma >> rate) || dash != '-' || comma != ',') {
-			std::cout << "Error: bad input => " << line << std::endl;
-			continue;
+		if (!(iss >> year >> dash1 >> month >> dash2 >> day >> comma >> rate) || dash1 != '-' || dash2 != '-' || comma != ',') {
+			std::ostringstream errorOss;
+			errorOss << "Error: not a valid data in data.csv => " << line;
+			throw std::runtime_error(errorOss.str());
 		}
 
-		std::ostringstream ss;
-		ss << std::setfill('0') << year << dash << std::setw(2) << month << dash << std::setw(2) << day;
-		try
-		{
-			checkDate(year, month, day, ss.str());
-			checkRate(rate);
-		}
-		catch(const std::exception& e)
-		{
-			std::cout << e.what() << '\n';
-			continue;
-		}
-
-		_bitcoinPrices[ss.str()] = rate;
+		std::ostringstream oss;
+		oss << std::setfill('0') << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
+		checkDate(year, month, day, oss.str());
+		checkRate(rate);
+		_bitcoinPrices[oss.str()] = rate;
     }
 	if (_bitcoinPrices.size() <= 0)
 		throw std::runtime_error("Error: Empty DB");
@@ -96,12 +88,12 @@ void BitcoinExchange::checkDataCsv() {
 void BitcoinExchange::checkValue(float value) {
 	std::ostringstream ss;
 
-	if (value < 0)
+	if (value <= 0)
 	{
 		ss << "Error: not a positive value => " << value;
 		throw std::runtime_error(ss.str());
 	}
-	if (value > 1000)
+	if (value >= 1000)
 	{
 		ss << "Error: too large a number => " << value;
 		throw std::runtime_error(ss.str());
@@ -112,12 +104,12 @@ void BitcoinExchange::printBitcoinPrice(std::string& date, float value, float bi
 	if (bitcoinPrice >= 0) {
 		std::cout << date << " => " << value << " = " << bitcoinPrice << std::endl;
     } else {
-		std::cout << "Error: date not found => " << date << std::endl;
+		std::cout << "Error: not a positive value => " << bitcoinPrice << std::endl;
     }
 }
 
 void BitcoinExchange::calcBitcoinPrice(std::string& date, float value) {
-	std::map<std::string, float>::const_iterator it = _bitcoinPrices.find(date);
+	std::map<std::string, float>::iterator it = _bitcoinPrices.find(date);
 	float bitcoinPrice = 0.0;
 
 	if (it != _bitcoinPrices.end())
@@ -143,7 +135,7 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 
 	std::string line, date;
 	int year, month, day;
-	char dash, pipe;
+	char dash1, dash2, pipe;
     float value;
 	
 	std::getline(inputFile, line);
@@ -152,13 +144,13 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 
     while (std::getline(inputFile, line)) {
 		std::istringstream iss(line);
-		if (!(iss >> year >> dash >> month >> dash >> day >> pipe >> value) || dash != '-' || pipe != '|') {
+		if (!(iss >> year >> dash1 >> month >> dash2 >> day >> pipe >> value) || dash1 != '-' || dash2 != '-' || pipe != '|') {
 			std::cout << "Error: bad input => " << line << std::endl;
 			continue;
 		}
 
 		std::ostringstream ss;
-		ss << std::setfill('0') << year << dash << std::setw(2) << month << dash << std::setw(2) << day;
+		ss << std::setfill('0') << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
 		date = ss.str();
 		try
 		{
