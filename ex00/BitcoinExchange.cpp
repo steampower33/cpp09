@@ -161,7 +161,6 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 		catch(const std::exception& e)
 		{
 			std::cout << e.what() << '\n';
-			continue;
 		}
     }
 }
