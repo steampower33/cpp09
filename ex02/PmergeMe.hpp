@@ -32,9 +32,10 @@ public:
 		~VecterSort();
 		size_t getMainSize();
 		void checkArg(const std::string& arg);
-		void makePair();
-		void mergeSort(size_t low, size_t high);
-		void merge(size_t low, size_t mid, size_t high);
+		void changePairPos(int low, int high);
+		int binarySearchWithPair(int high);
+		void eraseAndInsert(int high, int insertPos);
+		void makePair(int low, int high);
 		void swapPair(std::pair<int, int>& left, std::pair<int, int>& right);
 		void doSort();
 		void splitMainPending();
