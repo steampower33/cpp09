@@ -21,26 +21,24 @@ public:
 	void checkArg(const std::string& arg);
 	void argvPrint();
 	
-	class VecterSort {
+	class VectorSort {
 	private:
-		VecterSort(const VecterSort& other);
-		VecterSort& operator=(const VecterSort& other);
+		VectorSort(const VectorSort& other);
+		VectorSort& operator=(const VectorSort& other);
 		std::vector<int> _argv;
 		std::vector<int> _main;
 		std::vector<int> _pending;
 		std::vector<size_t> _jacobNumbers;
 		std::vector<size_t> _insertOrder;
 	public:
-		VecterSort();
-		~VecterSort();
+		VectorSort();
+		~VectorSort();
 		size_t getMainSize();
 		void checkArg(const std::string& arg);
-		void changePairPos(int low, int high);
 		int binarySearchWithPair(int high);
 		void eraseAndInsert(int high, int insertPos);
-		void makePair(int idx);
+		void recur(size_t size);
 		void doSort();
-		void splitMainPending();
 		size_t getJacobsthalNumber(size_t n);
 		void makeJacobsthalNumbers();
 		void setInsertOrder();

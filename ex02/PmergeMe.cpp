@@ -34,15 +34,15 @@ void PmergeMe::argvPrint() {
 
 // VectorSort------------------------------------------------------------------------------------------------------------------------------------
 
-PmergeMe::VecterSort::VecterSort() {};
+PmergeMe::VectorSort::VectorSort() {};
 
-PmergeMe::VecterSort::~VecterSort() {};
+PmergeMe::VectorSort::~VectorSort() {};
 
-PmergeMe::VecterSort::VecterSort(const VecterSort& other) {
+PmergeMe::VectorSort::VectorSort(const VectorSort& other) {
 	*this = other;
 }
 
-PmergeMe::VecterSort& PmergeMe::VecterSort::operator=(const VecterSort& other) {
+PmergeMe::VectorSort& PmergeMe::VectorSort::operator=(const VectorSort& other) {
 	if (this != &other) {
 		_argv = other._argv;
 		_main = other._main;
@@ -53,11 +53,11 @@ PmergeMe::VecterSort& PmergeMe::VecterSort::operator=(const VecterSort& other) {
 	return *this;
 }
 
-size_t PmergeMe::VecterSort::getMainSize() {
+size_t PmergeMe::VectorSort::getMainSize() {
 	return _main.size();
 }
 
-void PmergeMe::VecterSort::checkArg(const std::string& arg) {
+void PmergeMe::VectorSort::checkArg(const std::string& arg) {
 	char* endptr = NULL;
 	double num = strtod(arg.c_str(), &endptr);
 	if (*endptr == '\0' && num > 0 && num == static_cast<int>(num))
@@ -66,19 +66,7 @@ void PmergeMe::VecterSort::checkArg(const std::string& arg) {
 		throw std::runtime_error("Error");
 }
 
-void PmergeMe::VecterSort::changePairPos(int low, int high) {
-	int tmp;
-
-	if (_argv[low] < _argv[high]) {
-		tmp = _argv[low];
-		_argv[low] = _argv[high];
-		_argv[high] = tmp;
-	}
-	// std::cout << "low high" << std::endl;
-	// std::cout << _argv[low] << " " << _argv[high] << " " << std::endl;
-}
-
-int PmergeMe::VecterSort::binarySearchWithPair(int high) {
+int PmergeMe::VectorSort::binarySearchWithPair(int high) {
 	int low = 0;
 	int mid;
 	int insertNum = _argv[high * 2];
@@ -99,7 +87,7 @@ int PmergeMe::VecterSort::binarySearchWithPair(int high) {
 		return (mid);
 }
 
-void PmergeMe::VecterSort::eraseAndInsert(int high, int insertPos) {
+void PmergeMe::VectorSort::eraseAndInsert(int high, int insertPos) {
 	std::vector<int>::iterator it;
 
 	int left = _argv[high - 1];
@@ -117,30 +105,7 @@ void PmergeMe::VecterSort::eraseAndInsert(int high, int insertPos) {
 	// std::cout << std::endl;
 }
 
-void PmergeMe::VecterSort::makePair(int idx) {
-	int insertPos;
-
-	if (idx < 0) return ;
-	makePair(idx - 2);
-	changePairPos(idx - 1, idx);
-	insertPos = binarySearchWithPair(idx / 2);
-	// std::cout << "insertPos" << std::endl;
-	// std::cout << "(" << _argv[idx - 1] << ", "<< _argv[idx] << ") " << insertPos * 2 << std::endl;
-	eraseAndInsert(idx, insertPos);
-}
-
-void PmergeMe::VecterSort::splitMainPending() {
-	size_t argvSize = _argv.size() / 2;
-	size_t idx = 0;
-	while (argvSize) {
-		_main.push_back(_argv[idx]);
-		_pending.push_back(_argv[idx + 1]);
-		idx += 2;
-		argvSize--;
-	}
-}
-
-size_t PmergeMe::VecterSort::getJacobsthalNumber(size_t n)
+size_t PmergeMe::VectorSort::getJacobsthalNumber(size_t n)
 {
 	if (n == 0)
 		return (0);
@@ -150,7 +115,7 @@ size_t PmergeMe::VecterSort::getJacobsthalNumber(size_t n)
 	return (num);
 }
 
-void PmergeMe::VecterSort::makeJacobsthalNumbers() {
+void PmergeMe::VectorSort::makeJacobsthalNumbers() {
 	size_t jacobsthalNum = 0;
 	size_t pendingSize = _pending.size();
 	size_t pendingIdx = 2;
@@ -161,7 +126,7 @@ void PmergeMe::VecterSort::makeJacobsthalNumbers() {
 	}
 }
 
-void PmergeMe::VecterSort::setInsertOrder() {
+void PmergeMe::VectorSort::setInsertOrder() {
 	size_t jacobSize = _jacobNumbers.size();
 	size_t jacobNum;
 	size_t order;
@@ -189,7 +154,7 @@ void PmergeMe::VecterSort::setInsertOrder() {
 	}
 }
 
-size_t PmergeMe::VecterSort::binarySearch(int insertNum) {
+size_t PmergeMe::VectorSort::binarySearch(int insertNum) {
 	int low = 0;
 	int mid;
 	int high = _main.size() - 1;
@@ -210,7 +175,7 @@ size_t PmergeMe::VecterSort::binarySearch(int insertNum) {
 		return (mid);
 }
 
-void PmergeMe::VecterSort::insertionSort() {
+void PmergeMe::VectorSort::insertionSort() {
 	int insertNum;
 	size_t insertPosition;
 	std::vector<int>::iterator insertMainPostionIter;
@@ -233,7 +198,7 @@ void PmergeMe::VecterSort::insertionSort() {
 		_main.push_back(_argv[0]);
 }
 
-void PmergeMe::VecterSort::beforePrint() {
+void PmergeMe::VectorSort::beforePrint() {
 	size_t beforeSize = _argv.size();
 	std::cout << "Before: ";
 	for (size_t i = 0; i < beforeSize; ++i) {
@@ -242,7 +207,7 @@ void PmergeMe::VecterSort::beforePrint() {
 	std::cout << std::endl;
 }
 
-void PmergeMe::VecterSort::afterPrint() {
+void PmergeMe::VectorSort::afterPrint() {
 	size_t mainSize = _main.size();
 	std::cout << "After: \t";
 	for (size_t i = 0; i < mainSize; ++i) {
@@ -251,45 +216,29 @@ void PmergeMe::VecterSort::afterPrint() {
 	std::cout << std::endl;
 }
 
-void PmergeMe::VecterSort::doSort() {
-	size_t argvSize = (_argv.size() / 2) * 2;
+void PmergeMe::VectorSort::recur(size_t size) {
+	size_t loopSize = (_argv.size() / 2) * 2;
 
-	makePair(argvSize - 1);
-	// std::cout << "<<< _argv >>>" << std::endl;
-	// for (size_t i = 0; i < _argv.size(); ++i) {
-	// 	std::cout << _argv[i] << " ";
-	// }
-	// std::cout << std::endl;
-	splitMainPending();
-	// std::cout << "<<< Main And Pending >>>" << std::endl;
-	// std::cout << "main: ";
-	// for (size_t i = 0; i < _main.size(); ++i)
-	// 	std::cout << _main[i] << " ";
-	// std::cout << std::endl;
-	// std::cout << "pending: ";
-	// for (size_t i = 0; i < _pending.size(); ++i)
-	// 	std::cout << _pending[i] << " ";
-	// std::cout << std::endl;
-	makeJacobsthalNumbers();
-	// std::cout << "<<< Jacobsthal Numbers >>>" << std::endl;
-	// for (size_t i = 0; i < _jacobNumbers.size(); ++i) {
-	// 	std::cout << _jacobNumbers[i] << " ";
-	// }
-	// std::cout << std::endl;
-	setInsertOrder();
-	// std::cout << "<<< Insert Order >>>" << std::endl;
-	// for (size_t i = 0; i < _insertOrder.size(); ++i)
-	// 	std::cout << _insertOrder[i] << " ";
-	// std::cout << std::endl;
-	insertionSort();
-	// std::cout << "<<< Sort Result >>>" << std::endl;
-	// for (size_t i = 0; i < _main.size(); ++i)
-	// 	std::cout << _main[i] << " ";
-	// std::cout << std::endl;
-	checkSort();
+	for (size_t i = 0; i < loopSize; i += size) {
+		if (_argv[i] < _argv[i + size / 2]) {
+			for (size_t j = 0; j < size / 2; ++j)
+				_argv.insert(_argv.begin() + i, _argv[i + size / 2 + j]);
+			for (size_t j = i; j < size / 2; ++j)
+				_argv.erase(_argv.begin() + i + size);
+		}
+	}
+	for (size_t i = 0; i < loopSize; i++) {
+		std::cout << _argv[i] << " " << std::endl;
+	}
+	return ;
+	recur(size * 2);
 }
 
-void PmergeMe::VecterSort::checkSort() {
+void PmergeMe::VectorSort::doSort() {
+	recur(2);
+}
+
+void PmergeMe::VectorSort::checkSort() {
 	size_t mainSize = _main.size();
 
 	for (size_t i = 0; i < mainSize - 1; i++) {

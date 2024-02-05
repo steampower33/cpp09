@@ -9,19 +9,19 @@ int main(int argc, char** argv) {
 
 	char** argvAddress;
 	clock_t start, end;
-	PmergeMe pmerge;
-	PmergeMe::VecterSort vs;
-	PmergeMe::DequeSort ds;
+	// PmergeMe pmerge;
+	PmergeMe::VectorSort vs;
+	// PmergeMe::DequeSort ds;
 	try
 	{
-		// Printt Argv
-		argvAddress = argv;
-		argvAddress++;
-		while (*argvAddress) {
-			pmerge.checkArg(*argvAddress);
-			argvAddress++;
-		}
-		pmerge.argvPrint();
+		// Print Argv
+		// argvAddress = argv;
+		// argvAddress++;
+		// while (*argvAddress) {
+		// 	pmerge.checkArg(*argvAddress);
+		// 	argvAddress++;
+		// }
+		// pmerge.argvPrint();
 
 		// Start Vector Sort
 		start = clock();
@@ -33,21 +33,21 @@ int main(int argc, char** argv) {
 		}
 		vs.doSort();
 		end = clock();
-		vs.afterPrint();
-    	std::cout << "Time to process a range of " << vs.getMainSize() << " elements with std::vector : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;
+		// vs.afterPrint();
+    	// std::cout << "Time to process a range of " << vs.getMainSize() << " elements with std::vector : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;
 
-		// Start Deque Sort
-		start = clock();
-		argvAddress = argv;
-		argvAddress++;
-		while (*argvAddress) {
-			ds.checkArg(*argvAddress);
-			argvAddress++;
-		}
-		ds.doSort();
-		end = clock();
-		// ds.afterPrint();
-    	std::cout << "Time to process a range of " << ds.getMainSize() << " elements with std::deque  : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;		
+		// // Start Deque Sort
+		// start = clock();
+		// argvAddress = argv;
+		// argvAddress++;
+		// while (*argvAddress) {
+		// 	ds.checkArg(*argvAddress);
+		// 	argvAddress++;
+		// }
+		// ds.doSort();
+		// end = clock();
+		// // ds.afterPrint();
+    	// std::cout << "Time to process a range of " << ds.getMainSize() << " elements with std::deque  : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;		
 	}
 	catch(const std::exception& e)
 	{
