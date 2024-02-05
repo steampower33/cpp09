@@ -373,8 +373,8 @@ void PmergeMe::DequeSort::eraseAndInsert(int high, int insertPos) {
 	int left = _argv[high - 1];
 	int right = _argv[high];
 	_argv.erase(_argv.begin() + high - 1, _argv.begin() + high + 1);
-    _argv.insert(_argv.begin() + insertPos * 2, left);
     _argv.insert(_argv.begin() + insertPos * 2, right);
+    _argv.insert(_argv.begin() + insertPos * 2, left);
 	// std::cout << "_argv" << std::endl;
 	// for (size_t i = 0; i < _argv.size(); ++i) {
 	// 	std::cout << _argv[i] << " ";
@@ -518,37 +518,37 @@ void PmergeMe::DequeSort::doSort() {
 	size_t argvSize = (_argv.size() / 2) * 2;
 
 	makePair(argvSize - 1);
-	std::cout << "<<< _argv >>>" << std::endl;
-	for (size_t i = 0; i < _argv.size(); ++i) {
-		std::cout << _argv[i] << " ";
-	}
-	std::cout << std::endl;
+	// std::cout << "<<< _argv >>>" << std::endl;
+	// for (size_t i = 0; i < _argv.size(); ++i) {
+	// 	std::cout << _argv[i] << " ";
+	// }
+	// std::cout << std::endl;
 	splitMainPending();
-	std::cout << "<<< Main And Pending >>>" << std::endl;
-	std::cout << "main: ";
-	for (size_t i = 0; i < _main.size(); ++i)
-		std::cout << _main[i] << " ";
-	std::cout << std::endl;
-	std::cout << "pending: ";
-	for (size_t i = 0; i < _pending.size(); ++i)
-		std::cout << _pending[i] << " ";
-	std::cout << std::endl;
+	// std::cout << "<<< Main And Pending >>>" << std::endl;
+	// std::cout << "main: ";
+	// for (size_t i = 0; i < _main.size(); ++i)
+	// 	std::cout << _main[i] << " ";
+	// std::cout << std::endl;
+	// std::cout << "pending: ";
+	// for (size_t i = 0; i < _pending.size(); ++i)
+	// 	std::cout << _pending[i] << " ";
+	// std::cout << std::endl;
 	makeJacobsthalNumbers();
-	std::cout << "<<< Jacobsthal Numbers >>>" << std::endl;
-	for (size_t i = 0; i < _jacobNumbers.size(); ++i) {
-		std::cout << _jacobNumbers[i] << " ";
-	}
-	std::cout << std::endl;
+	// std::cout << "<<< Jacobsthal Numbers >>>" << std::endl;
+	// for (size_t i = 0; i < _jacobNumbers.size(); ++i) {
+	// 	std::cout << _jacobNumbers[i] << " ";
+	// }
+	// std::cout << std::endl;
 	setInsertOrder();
-	std::cout << "<<< Insert Order >>>" << std::endl;
-	for (size_t i = 0; i < _insertOrder.size(); ++i)
-		std::cout << _insertOrder[i] << " ";
-	std::cout << std::endl;
+	// std::cout << "<<< Insert Order >>>" << std::endl;
+	// for (size_t i = 0; i < _insertOrder.size(); ++i)
+	// 	std::cout << _insertOrder[i] << " ";
+	// std::cout << std::endl;
 	insertionSort();
-	std::cout << "<<< Sort Result >>>" << std::endl;
-	for (size_t i = 0; i < _main.size(); ++i)
-		std::cout << _main[i] << " ";
-	std::cout << std::endl;
+	// std::cout << "<<< Sort Result >>>" << std::endl;
+	// for (size_t i = 0; i < _main.size(); ++i)
+	// 	std::cout << _main[i] << " ";
+	// std::cout << std::endl;
 	checkSort();
 }
 
@@ -559,9 +559,7 @@ void PmergeMe::DequeSort::checkSort() {
 		if (_main[i] <= _main[i + 1])
 			continue;
 		else {
-			std::cout << _main[i] << " " << _main[i + 1] << std::endl;
-			break ;
+			throw std::runtime_error("Error");
 		}
-			// throw std::runtime_error("Error");
 	}
 }
