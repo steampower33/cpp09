@@ -66,7 +66,7 @@ void BitcoinExchange::checkDataCsv() {
 	
 	std::getline(inputFile, line);
     if (std::strcmp(line.c_str(), "date,exchange_rate"))
-		throw std::runtime_error("Error: not a valid header in data.csv");
+		throw std::runtime_error("Error: not a valid header in db file");
 
     while (std::getline(inputFile, line)) {
 		prePos = 0;
@@ -171,8 +171,8 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 	size_t prePos, pos;
 	
 	std::getline(inputFile, line);
-    if (line.find("date | value") == std::string::npos)
-			throw std::runtime_error("Error: not a valid header in data.csv");
+    if (std::strcmp(line.c_str(), "date | value"))
+		throw std::runtime_error("Error: not a valid header in input file");
 
     while (std::getline(inputFile, line)) {
 		prePos = 0;
