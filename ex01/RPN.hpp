@@ -6,6 +6,7 @@
 #include <sstream>
 #include <cmath>
 #include <stdexcept>
+#include <climits>
 
 class RPN {
 private:

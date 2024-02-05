@@ -52,12 +52,12 @@ void RPN::polish(const std::string& arg) {
 			idx = tokens.find(token);
 			switch (idx) {
 				case 0:
-					if (num1 + num2 > 2147483647)
+					if (num1 + num2 > INT_MAX)
 						throw std::runtime_error("Error");
 					calcNum = num1 + num2;
 					break ;
 				case 1:
-					if (num1 - num2 < -2147483648)
+					if (num1 - num2 < INT_MIN)
 						throw std::runtime_error("Error");
 					calcNum = num1 - num2;
 					break ;
@@ -67,7 +67,7 @@ void RPN::polish(const std::string& arg) {
 					calcNum = num1 / num2;
 					break ;
 				case 3:
-					if (num1 * num2 > 2147483647)
+					if (num1 * num2 > INT_MAX)
 						throw std::runtime_error("Error");
 					calcNum = num1 * num2;
 					break ;
