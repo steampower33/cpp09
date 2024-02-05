@@ -61,21 +61,51 @@ void BitcoinExchange::checkDataCsv() {
 	int year, month, day;
 	char dash1, dash2, comma;
     float rate;
+	int cnt;
+	size_t prePos, pos;
 	
 	std::getline(inputFile, line);
-    if (line.find("date,exchange_rate") == std::string::npos)
-			throw std::runtime_error("Error: not a valid header in data.csv");
+    if (std::strcmp(line.c_str(), "date,exchange_rate"))
+		throw std::runtime_error("Error: not a valid header in data.csv");
 
     while (std::getline(inputFile, line)) {
+		prePos = 0;
+		pos = 0;
+		cnt = 0;
 		std::istringstream iss(line);
+		
 		if (!(iss >> year >> dash1 >> month >> dash2 >> day >> comma >> rate) || dash1 != '-' || dash2 != '-' || comma != ',') {
 			std::ostringstream errorOss;
 			errorOss << "Error: not a valid data in data.csv => " << line;
 			throw std::runtime_error(errorOss.str());
 		}
+		if (line.find(' ') != std::string::npos)
+			throw std::runtime_error("Error: line has space");
+
+		pos = 0;
+		pos = line.find('-', pos);
+		if (line[0] == '0') {
+			std::cout << "Error: year starts from 0" << std::endl;
+			continue;
+		}
+		prePos = pos;
+
+		pos = line.find('-', pos + 1);
+		if (pos - prePos != 3) {
+			std::cout << "Error: month length is not 2" << std::endl;
+			continue;
+		}
+		prePos = pos;
+
+		pos = line.find(',', pos + 1);
+		if (pos - prePos != 3) {
+			std::cout << "Error: day length is not 2" << std::endl;
+			continue;
+		}
+		prePos = pos;
 
 		std::ostringstream oss;
-		oss << std::setfill('0') << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
+		oss << std::setfill('0') << std::setw(4) << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
 		checkDate(year, month, day, oss.str());
 		checkRate(rate);
 		_bitcoinPrices[oss.str()] = rate;
@@ -137,20 +167,64 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 	int year, month, day;
 	char dash1, dash2, pipe;
     float value;
+	int cnt, firstDataYearLengthInDb;
+	size_t prePos, pos;
 	
 	std::getline(inputFile, line);
     if (line.find("date | value") == std::string::npos)
 			throw std::runtime_error("Error: not a valid header in data.csv");
 
     while (std::getline(inputFile, line)) {
+		prePos = 0;
+		pos = 0;
+		cnt = 0;
+		firstDataYearLengthInDb = 0;
 		std::istringstream iss(line);
 		if (!(iss >> year >> dash1 >> month >> dash2 >> day >> pipe >> value) || dash1 != '-' || dash2 != '-' || pipe != '|') {
 			std::cout << "Error: bad input => " << line << std::endl;
 			continue;
 		}
 
+		pos = line.find(' ', pos);
+		if (pos != std::string::npos)
+			cnt++;
+		pos = line.find(' ', pos + 1);
+		if (pos != std::string::npos)
+			cnt++;
+		pos = line.find(' ', pos + 1);
+		if (pos != std::string::npos)
+			cnt++;
+		if (cnt != 2) {
+			std::cout << "Error: line has space more than 2 => " << line << std::endl;
+			continue;
+		}
+
+		pos = 0;
+		pos = line.find('-', pos);
+		if (line[0] == '0') {
+			std::cout << "Error: year starts from 0" << std::endl;
+			continue;
+		}
+		prePos = pos;
+
+		pos = line.find('-', pos + 1);
+		if (pos - prePos != 3) {
+			std::cout << "Error: month length is not 2" << std::endl;
+			continue;
+		}
+		prePos = pos;
+
+		pos = line.find(' ', pos + 1);
+		if (pos - prePos != 3) {
+			std::cout << "Error: day length is not 2" << std::endl;
+			continue;
+		}
+		prePos = pos;
+			
+		firstDataYearLengthInDb = _bitcoinPrices.begin()->first.find('-');
+
 		std::ostringstream ss;
-		ss << std::setfill('0') << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
+		ss << std::setfill('0') << std::setw(firstDataYearLengthInDb) << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
 		date = ss.str();
 		try
 		{

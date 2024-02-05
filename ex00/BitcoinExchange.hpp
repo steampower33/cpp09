@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <iomanip>
+#include <cstring>
 
 class BitcoinExchange {
 private:
