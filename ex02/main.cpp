@@ -11,7 +11,6 @@ int main(int argc, char** argv) {
 	clock_t start, end;
 	// PmergeMe pmerge;
 	PmergeMe::VectorSort vs;
-	// PmergeMe::DequeSort ds;
 	try
 	{
 		// Print Argv
@@ -35,19 +34,6 @@ int main(int argc, char** argv) {
 		end = clock();
 		// vs.afterPrint();
     	// std::cout << "Time to process a range of " << vs.getMainSize() << " elements with std::vector : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;
-
-		// // Start Deque Sort
-		// start = clock();
-		// argvAddress = argv;
-		// argvAddress++;
-		// while (*argvAddress) {
-		// 	ds.checkArg(*argvAddress);
-		// 	argvAddress++;
-		// }
-		// ds.doSort();
-		// end = clock();
-		// // ds.afterPrint();
-    	// std::cout << "Time to process a range of " << ds.getMainSize() << " elements with std::deque  : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;		
 	}
 	catch(const std::exception& e)
 	{
