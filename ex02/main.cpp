@@ -8,32 +8,19 @@ int main(int argc, char** argv) {
 	}
 
 	char** argvAddress;
-	clock_t start, end;
-	// PmergeMe pmerge;
+	PmergeMe pmerge;
 	PmergeMe::VectorSort vs;
 	try
 	{
-		// Print Argv
-		// argvAddress = argv;
-		// argvAddress++;
-		// while (*argvAddress) {
-		// 	pmerge.checkArg(*argvAddress);
-		// 	argvAddress++;
-		// }
-		// pmerge.argvPrint();
-
-		// Start Vector Sort
-		start = clock();
+		// Print Before Argv
 		argvAddress = argv;
 		argvAddress++;
-		while (*argvAddress) {
-			vs.checkArg(*argvAddress);
-			argvAddress++;
-		}
-		vs.doSort();
-		end = clock();
-		// vs.afterPrint();
-    	// std::cout << "Time to process a range of " << vs.getMainSize() << " elements with std::vector : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;
+		pmerge.checkArg(argvAddress);
+
+		// Start Vector Sort
+		argvAddress = argv;
+		argvAddress++;
+		vs.doSort(argvAddress);
 	}
 	catch(const std::exception& e)
 	{

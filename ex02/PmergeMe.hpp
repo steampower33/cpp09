@@ -19,7 +19,7 @@ private:
 public:
 	PmergeMe();
 	~PmergeMe();
-	void checkArg(const std::string& arg);
+	void checkArg(char** argv);
 	void argvPrint();
 	
 	class VectorSort {
@@ -34,19 +34,21 @@ public:
 	public:
 		VectorSort();
 		~VectorSort();
-		void beforePrint();
-		void afterPrint();
-		size_t getMainSize();
-		void checkArg(const std::string& arg);
-		int binarySearchWithPair(int high);
-		size_t getJacobsthalNumber(size_t n);
+		void doSort(char** argv);
+		void checkArg(char** argv);
+		void recur(size_t size);
+		void swapMainPending(size_t size, size_t loopSize);
+		void splitMainPending(size_t size, size_t loopSize);
 		void makeJacobsthalNumbers();
+		size_t getJacobsthalNumber(size_t n);
 		void setInsertOrder();
-		bool compareFunction(const std::vector<int>::iterator &a, const std::vector<int>::iterator &b);
 		void insertBInA(size_t unitSize);
 		size_t binarySearch(int insertNum);
-		void recur(size_t size);
-		void doSort();
+		void moveMainToArgv(size_t size);
+		void clearVector();
+		void checkSort();
+		void afterPrint();
+		size_t getArgvSize();
 	};
 };
 
