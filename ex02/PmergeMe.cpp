@@ -222,15 +222,17 @@ void PmergeMe::VectorSort::recur(size_t size) {
 	for (size_t i = 0; i < loopSize; i += size) {
 		if (_argv[i] < _argv[i + size / 2]) {
 			for (size_t j = 0; j < size / 2; ++j)
-				_argv.insert(_argv.begin() + i, _argv[i + size / 2 + j]);
-			for (size_t j = i; j < size / 2; ++j)
+				_argv.insert(_argv.begin() + i, *(_argv.begin() + i + size - 1));
+			for (size_t j = 0; j < size / 2; ++j)
 				_argv.erase(_argv.begin() + i + size);
 		}
 	}
-	for (size_t i = 0; i < loopSize; i++) {
-		std::cout << _argv[i] << " " << std::endl;
+	std::cout << "-----argv-----" << std::endl;
+	for (size_t i = 0; i < _argv.size(); ++i) {
+		std::cout << _argv[i] << " ";
 	}
-	return ;
+	std::cout << std::endl;
+	if (_argv.size() == size) return ;
 	recur(size * 2);
 }
 
