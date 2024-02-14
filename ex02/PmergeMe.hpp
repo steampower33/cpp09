@@ -31,6 +31,7 @@ public:
 		std::vector< std::vector<int> > _pending;
 		std::vector<size_t> _jacobNumbers;
 		std::vector<size_t> _insertOrder;
+		int count;
 	public:
 		VectorSort();
 		~VectorSort();
@@ -43,7 +44,7 @@ public:
 		size_t getJacobsthalNumber(size_t n);
 		void setInsertOrder();
 		void insertBInA(size_t unitSize);
-		size_t binarySearch(int insertNum);
+		size_t binarySearch(int insertNum, int high);
 		void moveMainToArgv(size_t size);
 		void clearVector();
 		void checkSort();

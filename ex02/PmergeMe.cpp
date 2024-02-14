@@ -78,6 +78,7 @@ void PmergeMe::VectorSort::checkArg(char** argv) {
 
 void PmergeMe::VectorSort::doSort(char** argv) {
 	clock_t start, end;
+	count = 0;
 
 	start = clock();
 	checkArg(argv);
@@ -85,7 +86,7 @@ void PmergeMe::VectorSort::doSort(char** argv) {
 	checkSort();
 	end = clock();
 	afterPrint();
-    std::cout << "Time to process a range of " << getArgvSize() << " elements with std::vector : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;
+    std::cout << "count " << count << " Time to process a range of " << getArgvSize() << " elements with std::vector : " << static_cast<float>(end - start) * 1000.0 / CLOCKS_PER_SEC << " us" << std::endl;
 }
 
 void PmergeMe::VectorSort::recur(size_t size) {
@@ -111,6 +112,7 @@ void PmergeMe::VectorSort::swapMainPending(size_t size, size_t loopSize) {
 			for (size_t j = 0; j < size / 2; j++)
 				_argv.erase(_argv.begin() + i + size);
 		}
+		count++;
 	}
 	// for (size_t l = 0; l < _argv.size(); l++) {
 	// 	if (l % size == 0)
@@ -217,16 +219,17 @@ void PmergeMe::VectorSort::setInsertOrder() {
 }
 
 void PmergeMe::VectorSort::insertBInA(size_t unitSize) {
+	size_t orderSize = _insertOrder.size();
 	int insertNum;
-	size_t insertPosition;
-	std::vector<int>::iterator insertMainPostionIter;
-	std::vector<size_t>::iterator iob = _insertOrder.begin();
-	std::vector<size_t>::iterator ioe = _insertOrder.end();
+	size_t insertPosition = 0;
+	size_t searchSize = 0;
 
-	for (std::vector<size_t>::iterator iter = iob; iter < ioe; ++iter) {
-		insertNum = _pending[*iter - 1][0];
-		insertPosition = binarySearch(insertNum);
-		_main.insert(_main.begin() + insertPosition, _pending[*iter - 1]);
+	for (size_t i = 0; i < orderSize; i++) {
+		insertNum = _pending[_insertOrder[i] - 1][0];
+		if (i > 0 && insertPosition <= _insertOrder[i] - 1)
+			searchSize = i + _insertOrder[i] - 1 + 1;
+		insertPosition = binarySearch(insertNum, searchSize);
+		_main.insert(_main.begin() + insertPosition, _pending[_insertOrder[i] - 1]);
 	}
 	if ((_argv.size() / unitSize) * unitSize < _argv.size()) {
 		std::vector<int> l;
@@ -236,10 +239,9 @@ void PmergeMe::VectorSort::insertBInA(size_t unitSize) {
 	}
 }
 
-size_t PmergeMe::VectorSort::binarySearch(int insertNum) {
+size_t PmergeMe::VectorSort::binarySearch(int insertNum, int high) {
 	int low = 0;
 	int mid;
-	int high = _main.size() - 1;
 
 	while (low <= high)
 	{
@@ -250,6 +252,7 @@ size_t PmergeMe::VectorSort::binarySearch(int insertNum) {
 			high = mid - 1;
 		else
 			low = mid + 1;
+		count++;
 	}
 	if (insertNum > _main.at(mid)[0])
 		return (mid + 1);
