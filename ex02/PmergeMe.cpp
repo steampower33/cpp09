@@ -104,13 +104,11 @@ void PmergeMe::VectorSort::recur(size_t size) {
 }
 
 void PmergeMe::VectorSort::swapMainPending(size_t size, size_t loopSize) {
-	size_t i, j;
-
-	for (i = 0; i < loopSize; i += size) {
+	for (size_t i = 0; i < loopSize; i += size) {
 		if (_argv[i] < _argv[i + size / 2]) {
-			for (j = 0; j < size / 2; j++)
+			for (size_t j = 0; j < size / 2; j++)
 				_argv.insert(_argv.begin() + i, *(_argv.begin() + i + size - 1));
-			for (j = 0; j < size / 2; j++)
+			for (size_t j = 0; j < size / 2; j++)
 				_argv.erase(_argv.begin() + i + size);
 		}
 	}
@@ -123,22 +121,22 @@ void PmergeMe::VectorSort::swapMainPending(size_t size, size_t loopSize) {
 }
 
 void PmergeMe::VectorSort::splitMainPending(size_t size, size_t loopSize) {
-	size_t i, j;
-
+	size_t i;
+	
 	for (i = 0; i < loopSize; i += size) {
 		std::vector<int> m;
-		for (j = i; j < i + size / 2; j++)
+		for (size_t j = i; j < i + size / 2; j++)
 			m.push_back(_argv[j]);
 		_main.push_back(m);
 
 		std::vector<int> p;
-		for (j = i + size / 2; j < i + size; j++)
+		for (size_t j = i + size / 2; j < i + size; j++)
 			p.push_back(_argv[j]);
 		_pending.push_back(p);
 	}
 	if ((_argv.size() / (size / 2)) % 2 == 1) {
 		std::vector<int> l;
-		for (j = i; j < i + size / 2; j++)
+		for (size_t j = i; j < i + size / 2; j++)
 			l.push_back(_argv[j]);
 		_pending.push_back(l);
 	}
