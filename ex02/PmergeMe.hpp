@@ -31,7 +31,6 @@ public:
 		std::vector< std::vector<int> > _pending;
 		std::vector<size_t> _jacobNumbers;
 		std::vector<size_t> _insertOrder;
-		int count;
 	public:
 		VectorSort();
 		~VectorSort();
