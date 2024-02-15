@@ -112,12 +112,6 @@ void PmergeMe::VectorSort::swapMainPending(size_t size, size_t loopSize) {
 				_argv.erase(_argv.begin() + i + size);
 		}
 	}
-	for (size_t l = 0; l < _argv.size(); l++) {
-		if (l % size == 0)
-			std::cout << "| ";
-		std::cout << _argv[l] << " ";
-	}
-	std::cout << std::endl;
 }
 
 void PmergeMe::VectorSort::splitMainPending(size_t size, size_t loopSize) {
@@ -140,19 +134,16 @@ void PmergeMe::VectorSort::splitMainPending(size_t size, size_t loopSize) {
 			l.push_back(_argv[j]);
 		_pending.push_back(l);
 	}
-
-	std::cout << "size => " << size << std::endl;
-	std::cout << "loopSize => " << loopSize << std::endl;
-	std::cout << "m: ";
-	for (size_t size = 0; size < _main.size(); size++) {
-		std::cout << _main[size][0] << " ";
-	}
-	std::cout << std::endl;
-	std::cout << "p: ";
-	for (size_t size = 0; size < _pending.size(); size++) {
-		std::cout << _pending[size][0] << " ";
-	}
-	std::cout << std::endl;
+	// std::cout << "m: ";
+	// for (size_t size = 0; size < _main.size(); size++) {
+	// 	std::cout << _main[size][0] << " ";
+	// }
+	// std::cout << std::endl;
+	// std::cout << "p: ";
+	// for (size_t size = 0; size < _pending.size(); size++) {
+	// 	std::cout << _pending[size][0] << " ";
+	// }
+	// std::cout << std::endl;
 }
 
 void PmergeMe::VectorSort::makeJacobsthalNumbers() {
@@ -164,12 +155,6 @@ void PmergeMe::VectorSort::makeJacobsthalNumbers() {
 		_jacobNumbers.push_back(jacobsthalNum);
 		pendingIdx++;
 	}
-
-	std::cout << "Jacobsthal" << std::endl;
-	for (size_t i = 0; i < _jacobNumbers.size(); i++) {
-		std::cout << _jacobNumbers[i] << " ";
-	}
-	std::cout << std::endl;
 }
 
 size_t PmergeMe::VectorSort::getJacobsthalNumber(size_t n)
@@ -208,12 +193,6 @@ void PmergeMe::VectorSort::setInsertOrder() {
 		_insertOrder.push_back(order);
 		order--;
 	}
-
-	std::cout << "InsertOrder" << std::endl;
-	for (size_t i = 0; i < _insertOrder.size(); i++) {
-		std::cout << _insertOrder[i] << " ";
-	}
-	std::cout << std::endl;
 }
 
 void PmergeMe::VectorSort::insertBInA(size_t unitSize) {
@@ -226,15 +205,24 @@ void PmergeMe::VectorSort::insertBInA(size_t unitSize) {
 
 	for (size_t i = 0; i < orderSize; i++) {
 		insertNum = _pending[_insertOrder[i] - 1][0];
+		// std::cout << "insertNum: " << insertNum;
+		// std::cout << ", firstMainSize: " << firstMainSize;
+		// std::cout << ", _insertOrder[i]: " << _insertOrder[i];
+		// std::cout << ", searchSize: " << searchSize;
+
 		if (firstMainSize < _insertOrder[i])
 			insertPosition = binarySearch(insertNum, searchSize + firstMainSize - 1);
 		else
 			insertPosition = binarySearch(insertNum, searchSize + _insertOrder[i] - 1);
+		if (i + 1 < orderSize && insertPosition <= _insertOrder[i + 1] + searchSize - 1)
+			searchSize++;
+		// std::cout << ", insertPosition: " << insertPosition;
 		_main.insert(_main.begin() + insertPosition, _pending[_insertOrder[i] - 1]);
-		if (jacobIdx + 1 < _jacobNumbers.size() && _insertOrder[i] == _jacobNumbers[jacobIdx + 1]) {
-			searchSize = _jacobNumbers[jacobIdx + 1];
+		if (i + 1 < orderSize && i + 1 == _jacobNumbers[jacobIdx]) {
+			searchSize = _jacobNumbers[jacobIdx];
 			jacobIdx++;
 		}
+		// std::cout << ", searchSize: " << searchSize << std::endl;
 	}
 	if ((_argv.size() / unitSize) * unitSize < _argv.size()) {
 		std::vector<int> l;
