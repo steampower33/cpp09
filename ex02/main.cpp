@@ -10,17 +10,24 @@ int main(int argc, char** argv) {
 	char** argvAddress;
 	PmergeMe pmerge;
 	PmergeMe::VectorSort vs;
+	PmergeMe::DequeSort ds;
 	try
 	{
 		// Print Before Argv
 		argvAddress = argv;
 		argvAddress++;
 		pmerge.checkArg(argvAddress);
+		pmerge.argvPrint();
 
 		// Start Vector Sort
 		argvAddress = argv;
 		argvAddress++;
 		vs.doSort(argvAddress);
+
+		// Start Deque Sort
+		argvAddress = argv;
+		argvAddress++;
+		ds.doSort(argvAddress);
 	}
 	catch(const std::exception& e)
 	{

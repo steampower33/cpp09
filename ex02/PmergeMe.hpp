@@ -50,6 +50,35 @@ public:
 		void afterPrint();
 		size_t getArgvSize();
 	};
+
+	class DequeSort {
+	private:
+		DequeSort(const DequeSort& other);
+		DequeSort& operator=(const DequeSort& other);
+		std::deque<int> _argv;
+		std::deque< std::deque<int> > _main;
+		std::deque< std::deque<int> > _pending;
+		std::deque<size_t> _jacobNumbers;
+		std::deque<size_t> _insertOrder;
+	public:
+		DequeSort();
+		~DequeSort();
+		void doSort(char** argv);
+		void checkArg(char** argv);
+		void recur(size_t size);
+		void swapMainPending(size_t size, size_t loopSize);
+		void splitMainPending(size_t size, size_t loopSize);
+		void makeJacobsthalNumbers();
+		size_t getJacobsthalNumber(size_t n);
+		void setInsertOrder();
+		void insertBInA(size_t unitSize);
+		size_t binarySearch(int insertNum, int high);
+		void moveMainToArgv(size_t size);
+		void clearDeque();
+		void checkSort();
+		void afterPrint();
+		size_t getArgvSize();
+	};
 };
 
 #endif
