@@ -63,7 +63,6 @@ void BitcoinExchange::checkDataCsv() {
 	int year, month, day;
 	char dash1, dash2, comma;
     float rate;
-	int cnt;
 	size_t prePos, pos;
 	
 	std::getline(inputFile, line);
@@ -73,7 +72,6 @@ void BitcoinExchange::checkDataCsv() {
     while (std::getline(inputFile, line)) {
 		prePos = 0;
 		pos = 0;
-		cnt = 0;
 		std::istringstream iss(line);
 		
 		if (!(iss >> year >> dash1 >> month >> dash2 >> day >> comma >> rate) || dash1 != '-' || dash2 != '-' || comma != ',') {
