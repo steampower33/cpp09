@@ -33,7 +33,7 @@ void RPN::polish(const std::string& arg) {
 	std::string token;
 	char *endptr = NULL;
 	double tokenValue = 0;
-	long num1, num2, calcNum;
+	long long num1, num2, calcNum;
 	std::size_t idx;
 	std::string tokens = "+-/*";
 	while (iss >> token) {
@@ -67,7 +67,7 @@ void RPN::polish(const std::string& arg) {
 					calcNum = num1 / num2;
 					break ;
 				case 3:
-					if (num1 * num2 > INT_MAX)
+					if ((num1 * num2 > INT_MAX) || (num1 * num2 < INT_MIN))
 						throw std::runtime_error("Error");
 					calcNum = num1 * num2;
 					break ;
