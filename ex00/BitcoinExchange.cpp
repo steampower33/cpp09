@@ -46,6 +46,8 @@ int BitcoinExchange::getDaysInMonth(int year, int month) {
 void BitcoinExchange::checkDate(int year, int month, int day, const std::string& line) {
 	if (year < 0)
 		throw std::runtime_error("Error: not a positive year => " + line);
+	if (year > 9999)
+		throw std::runtime_error("Error: year length is not less than 4 => " + line);
 	else if (month < 1 || month > 12)
 		throw std::runtime_error("Error: not a valid month => " + line);
 	else if (day < 1 || day > getDaysInMonth(year, month))
@@ -168,7 +170,7 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 	char dash1, dash2, pipe;
     float value;
 	int cnt, firstDataYearLengthInDb;
-	size_t prePos, pos;
+	size_t prePos, pos, nposCnt;
 	
 	std::getline(inputFile, line);
     if (std::strcmp(line.c_str(), "date | value"))
@@ -178,6 +180,7 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 		prePos = 0;
 		pos = 0;
 		cnt = 0;
+		nposCnt = 0;
 		firstDataYearLengthInDb = 0;
 		std::istringstream iss(line);
 		if (!(iss >> year >> dash1 >> month >> dash2 >> day >> pipe >> value) || dash1 != '-' || dash2 != '-' || pipe != '|') {
@@ -188,16 +191,26 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 		pos = line.find(' ', pos);
 		if (pos != std::string::npos)
 			cnt++;
-		pos = line.find(' ', pos + 1);
-		if (pos != std::string::npos)
-			cnt++;
-		pos = line.find(' ', pos + 1);
-		if (pos != std::string::npos)
-			cnt++;
-		if (cnt != 2) {
-			std::cout << "Error: line has space more than 2 => " << line << std::endl;
+		else {
+			std::cout << "Error: line does not include right spaces => " << line << std::endl;
 			continue;
 		}
+
+		pos = line.find(' ', pos + 1);
+		if (pos != std::string::npos)
+			cnt++;
+		else {
+			std::cout << "Error: line does not include right spaces => " << line << std::endl;
+			continue;
+		}
+
+		pos = line.find(' ', pos + 1);
+		if (pos != std::string::npos) {
+			std::cout << "Error: line does not include right spaces => " << line << std::endl;
+			continue;
+		}
+		else
+			nposCnt++;
 
 		pos = 0;
 		pos = line.find('-', pos);
