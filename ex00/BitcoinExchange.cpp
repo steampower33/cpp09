@@ -102,7 +102,6 @@ void BitcoinExchange::checkDataCsv() {
 			std::cout << "Error: day length is not 2" << std::endl;
 			continue;
 		}
-		prePos = pos;
 
 		std::ostringstream oss;
 		oss << std::setfill('0') << std::setw(4) << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
@@ -167,8 +166,7 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 	int year, month, day;
 	char dash1, dash2, pipe;
     float value;
-	int cnt, firstDataYearLengthInDb;
-	size_t prePos, pos, nposCnt;
+	size_t prePos, pos;
 	
 	std::getline(inputFile, line);
     if (std::strcmp(line.c_str(), "date | value"))
@@ -177,9 +175,6 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
     while (std::getline(inputFile, line)) {
 		prePos = 0;
 		pos = 0;
-		cnt = 0;
-		nposCnt = 0;
-		firstDataYearLengthInDb = 0;
 		std::istringstream iss(line);
 		if (!(iss >> year >> dash1 >> month >> dash2 >> day >> pipe >> value) || dash1 != '-' || dash2 != '-' || pipe != '|') {
 			std::cout << "Error: bad input => " << line << std::endl;
@@ -187,17 +182,13 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 		}
 
 		pos = line.find(' ', pos);
-		if (pos != std::string::npos)
-			cnt++;
-		else {
+		if (pos == std::string::npos) {
 			std::cout << "Error: line does not include right spaces => " << line << std::endl;
 			continue;
 		}
 
 		pos = line.find(' ', pos + 1);
-		if (pos != std::string::npos)
-			cnt++;
-		else {
+		if (pos == std::string::npos) {
 			std::cout << "Error: line does not include right spaces => " << line << std::endl;
 			continue;
 		}
@@ -207,8 +198,6 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 			std::cout << "Error: line does not include right spaces => " << line << std::endl;
 			continue;
 		}
-		else
-			nposCnt++;
 
 		pos = 0;
 		pos = line.find('-', pos);
@@ -230,12 +219,9 @@ void BitcoinExchange::checkInputFile(const std::string& file) {
 			std::cout << "Error: day length is not 2" << std::endl;
 			continue;
 		}
-		prePos = pos;
-			
-		firstDataYearLengthInDb = _bitcoinPrices.begin()->first.find('-');
 
 		std::ostringstream ss;
-		ss << std::setfill('0') << std::setw(firstDataYearLengthInDb) << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
+		ss << std::setfill('0') << std::setw(4) << year << dash1 << std::setw(2) << month << dash2 << std::setw(2) << day;
 		date = ss.str();
 		try
 		{
